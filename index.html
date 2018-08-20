@@ -5,9 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>DeepFallBlog</title>
-  <meta property="og:title" content="DeepFallBlog" />
-  <meta name="twitter:title" content="DeepFallBlog" />
+  <title>laycnc Blog</title>
+  <meta property="og:title" content="laycnc Blog" />
+  <meta name="twitter:title" content="laycnc Blog" />
   <meta name="description" content="ゲーム開発者のブログ
 ゲームやるよりゲーム作っている方が好きな目的と手段が入れ替わっている系PG
 C&#43;&#43;,C#,UE4,WPF周りをちょいちょい">
@@ -26,11 +26,11 @@ C&#43;&#43;,C#,UE4,WPF周りをちょいちょい">
   <meta name="twitter:creator" content="@username" />
   <meta property="og:url" content="https://laycnc.github.io/" />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="DeepFallBlog" />
+  <meta property="og:site_name" content="laycnc Blog" />
 
   <meta name="generator" content="Hugo 0.46" />
   <link rel="canonical" href="https://laycnc.github.io/" />
-  <link rel="alternate" href="https://laycnc.github.io/index.xml" type="application/rss+xml" title="DeepFallBlog">
+  <link rel="alternate" href="https://laycnc.github.io/index.xml" type="application/rss+xml" title="laycnc Blog">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -101,7 +101,7 @@ C&#43;&#43;,C#,UE4,WPF周りをちょいちょい">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="https://laycnc.github.io">DeepFallBlog</a>
+      <a class="navbar-brand" href="https://laycnc.github.io">laycnc Blog</a>
     </div>
 
     <div class="collapse navbar-collapse" id="main-navbar">
@@ -129,8 +129,8 @@ C&#43;&#43;,C#,UE4,WPF周りをちょいちょい">
     <div class="avatar-container">
       <div class="avatar-img-border">
         
-          <a title="DeepFallBlog" href="https://laycnc.github.io">
-            <img class="avatar-img" src="https://laycnc.github.io/img/avatar-icon.png" alt="DeepFallBlog" />
+          <a title="laycnc Blog" href="https://laycnc.github.io">
+            <img class="avatar-img" src="https://laycnc.github.io/img/avatar-icon.png" alt="laycnc Blog" />
           </a>
         
       </div>
@@ -160,7 +160,7 @@ C&#43;&#43;,C#,UE4,WPF周りをちょいちょい">
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="page-heading">
-              <h1>DeepFallBlog</h1>
+              <h1>laycnc Blog</h1>
                 
                   
                     <hr class="small">
@@ -191,6 +191,56 @@ C++,C#,UE4,WPF周りをちょいちょい</p>
 
         <div class="posts-list">
           
+          
+            <article class="post-preview">
+              <a href="https://laycnc.github.io/post/2018-08-20-ue4-installed-build/">
+                <h2 class="post-title">2018 08 08 Ue4 Installed Buildをしてみた</h2>
+                
+                
+              </a>
+
+              <span class="post-meta">
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;August 8, 2018に投稿
+  
+  
+  &nbsp;|&nbsp;
+  <i class="fa fa-clock-o"></i> 1 分間 (72 言葉)
+  
+  
+</span>
+
+
+              <div class="post-entry">
+                
+                  UE4の非配布版を使っているとリビルドをした時に問題がUE4までリビルドされたり
+UE4側も恐らく(間違っているかも)変更チェックとかをしていてビルドが非常に遅いなーと感じます
+EpicはUnrealEngine4を配布ビルドとしてビルドする方法を提供しているみたいなので試してみます。
+環境 今回はUE4.20.1を使用します。
+ビルドにはVisualStudio2017を使用します。
+今回は解説を省きますのでhistoriaさんのブログを参照してください
+historia:[UE4] エンジンのソースコード取得とビルド手順のまとめ UE4.6改訂版
+UE4.20.1
+やってみる UE4:InstalledBuild公式ドキュメント
+公式ドキュメントを参考にUnrealAutomationToolを実行する
+ドキュメントをほぼ移しただけなのでそこまで詳しく把握はしていません
+ビルドする際には使わない＋ビルド出来ないターゲットプラットフォームを除外する必要があります
+実行時の引数に下記のように追記を加えると除外＋含める事ができます
+分散ビルドなどの高速にビルドする手段が無い場合は出来る限り使わないプラットフォームのビルドを避けるようにしましょう！
+-set:WithWin64=true -set:WithAndroid=false 実際にビルドで使ったコマンド　${UnrealEngineをgitで落としてきた場所}}\Engine\Build\BatchFiles\RunUAT.bat BuildGraph -target=&#34;Make Installed Build Win64&#34; -script=Engine/Build/InstalledEngineBuild.xml -set:HostPlatformOnly=true -set:WithDDC=false -set:WithFullDebugInfo=true -clean ビルドに成功すると下記の場所に配布用のビルドが作成されます
+${UnrealEngineをgitで落としてきた場所}}\LocalBuilds\Engine\Windows
+プロジェクトを作ってみると、画像のような構成になっていれば成功！！
+失敗例 ビルド成功するまで幾つか失敗をしたので対処法を載せます
+PdbCopy.exeが無くて失敗する UE4.19以前 UE4.19はVisualStudio2015想定なのでパスが直書きされています。
+そのため下記を強制的に差し替えるようにしてください
+public override void StripSymbols(FileReference SourceFile, FileReference TargetFile) { // 省略 	ProcessStartInfo StartInfo = new ProcessStartInfo(); string PDBCopyPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), &#34;MSBuild&#34;, &#34;Microsoft&#34;, &#34;VisualStudio&#34;, &#34;v14.0&#34;, &#34;AppxPackage&#34;, &#34;PDBCopy.exe&#34;); PdbCopy.exe自体が存在しない VisualStudio2017ではインストーラーを出来る限り軽量にする為に依存を限りなく少なくしようとする試みがされています。
+                  <a href="https://laycnc.github.io/post/2018-08-20-ue4-installed-build/" class="post-read-more">[続きを読む]</a>
+                
+              </div>
+
+              
+            </article>
           
             <article class="post-preview">
               <a href="https://laycnc.github.io/post/2018-08-08-new-site-release/">
@@ -436,7 +486,7 @@ C++,C#,UE4,WPF周りをちょいちょい</p>
 
           
             &nbsp;&bull;&nbsp;
-            <a href="https://laycnc.github.io">DeepFallBlog</a>
+            <a href="https://laycnc.github.io">laycnc Blog</a>
           
         </p>
         

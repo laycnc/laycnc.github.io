@@ -5,28 +5,57 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>ブログを開設しました</title>
-  <meta property="og:title" content="ブログを開設しました" />
-  <meta name="twitter:title" content="ブログを開設しました" />
-  <meta name="description" content="最近アウトプットが出来ていないのでブログを作っていました。
-たまに、Qiitaとかで記事とか書いていましたが、Qiitaだとポエム的な内容だとバッシングを受ける事もちらほらアリましたので
-個人でブログを作る事にしました。
-はてなブログも考えましたが、Githubで静的なWebページを出せるとのことなのでエンジニアとしてやってみようかなーっと
-今回はHugoという静的Webサイト生成ツールを使ってブログを作っています。
-基本的にはMarkdownを使っているので他のサイトへの移動は楽かなーっと
-今後はちょいちょい記事を上げていこうと思います">
-  <meta property="og:description" content="最近アウトプットが出来ていないのでブログを作っていました。
-たまに、Qiitaとかで記事とか書いていましたが、Qiitaだとポエム的な内容だとバッシングを受ける事もちらほらアリましたので
-個人でブログを作る事にしました。
-はてなブログも考えましたが、Githubで静的なWebページを出せるとのことなのでエンジニアとしてやってみようかなーっと
-今回はHugoという静的Webサイト生成ツールを使ってブログを作っています。
-基本的にはMarkdownを使っているので他のサイトへの移動は楽かなーっと
-今後はちょいちょい記事を上げていこうと思います">
-  <meta name="twitter:description" content="最近アウトプットが出来ていないのでブログを作っていました。
-たまに、Qiitaとかで記事とか書いていましたが、Qiitaだとポエム的な内容だとバッシングを受ける事もちらほらアリましたので
-個人でブログを作る事にしました。
-はてなブログも考えましたが、Githubで静的なWebページを出せるとのことなのでエンジニアとしてやってみようかなーっと
-今回はHugoという静的Webサイト生成ツールを使ってブ …">
+  <title>2018 08 08 Ue4 Installed Buildをしてみた</title>
+  <meta property="og:title" content="2018 08 08 Ue4 Installed Buildをしてみた" />
+  <meta name="twitter:title" content="2018 08 08 Ue4 Installed Buildをしてみた" />
+  <meta name="description" content="UE4の非配布版を使っているとリビルドをした時に問題がUE4までリビルドされたり
+UE4側も恐らく(間違っているかも)変更チェックとかをしていてビルドが非常に遅いなーと感じます
+EpicはUnrealEngine4を配布ビルドとしてビルドする方法を提供しているみたいなので試してみます。
+環境 今回はUE4.20.1を使用します。
+ビルドにはVisualStudio2017を使用します。
+今回は解説を省きますのでhistoriaさんのブログを参照してください
+historia:[UE4] エンジンのソースコード取得とビルド手順のまとめ UE4.6改訂版
+UE4.20.1
+やってみる UE4:InstalledBuild公式ドキュメント
+公式ドキュメントを参考にUnrealAutomationToolを実行する
+ドキュメントをほぼ移しただけなのでそこまで詳しく把握はしていません
+ビルドする際には使わない＋ビルド出来ないターゲットプラットフォームを除外する必要があります
+実行時の引数に下記のように追記を加えると除外＋含める事ができます
+分散ビルドなどの高速にビルドする手段が無い場合は出来る限り使わないプラットフォームのビルドを避けるようにしましょう！
+-set:WithWin64=true -set:WithAndroid=false 実際にビルドで使ったコマンド　${UnrealEngineをgitで落としてきた場所}}\Engine\Build\BatchFiles\RunUAT.bat BuildGraph -target=&#34;Make Installed Build Win64&#34; -script=Engine/Build/InstalledEngineBuild.xml -set:HostPlatformOnly=true -set:WithDDC=false -set:WithFullDebugInfo=true -clean ビルドに成功すると下記の場所に配布用のビルドが作成されます
+${UnrealEngineをgitで落としてきた場所}}\LocalBuilds\Engine\Windows
+プロジェクトを作ってみると、画像のような構成になっていれば成功！！
+失敗例 ビルド成功するまで幾つか失敗をしたので対処法を載せます
+PdbCopy.exeが無くて失敗する UE4.19以前 UE4.19はVisualStudio2015想定なのでパスが直書きされています。
+そのため下記を強制的に差し替えるようにしてください
+public override void StripSymbols(FileReference SourceFile, FileReference TargetFile) { // 省略 	ProcessStartInfo StartInfo = new ProcessStartInfo(); string PDBCopyPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), &#34;MSBuild&#34;, &#34;Microsoft&#34;, &#34;VisualStudio&#34;, &#34;v14.0&#34;, &#34;AppxPackage&#34;, &#34;PDBCopy.exe&#34;); PdbCopy.exe自体が存在しない VisualStudio2017ではインストーラーを出来る限り軽量にする為に依存を限りなく少なくしようとする試みがされています。">
+  <meta property="og:description" content="UE4の非配布版を使っているとリビルドをした時に問題がUE4までリビルドされたり
+UE4側も恐らく(間違っているかも)変更チェックとかをしていてビルドが非常に遅いなーと感じます
+EpicはUnrealEngine4を配布ビルドとしてビルドする方法を提供しているみたいなので試してみます。
+環境 今回はUE4.20.1を使用します。
+ビルドにはVisualStudio2017を使用します。
+今回は解説を省きますのでhistoriaさんのブログを参照してください
+historia:[UE4] エンジンのソースコード取得とビルド手順のまとめ UE4.6改訂版
+UE4.20.1
+やってみる UE4:InstalledBuild公式ドキュメント
+公式ドキュメントを参考にUnrealAutomationToolを実行する
+ドキュメントをほぼ移しただけなのでそこまで詳しく把握はしていません
+ビルドする際には使わない＋ビルド出来ないターゲットプラットフォームを除外する必要があります
+実行時の引数に下記のように追記を加えると除外＋含める事ができます
+分散ビルドなどの高速にビルドする手段が無い場合は出来る限り使わないプラットフォームのビルドを避けるようにしましょう！
+-set:WithWin64=true -set:WithAndroid=false 実際にビルドで使ったコマンド　${UnrealEngineをgitで落としてきた場所}}\Engine\Build\BatchFiles\RunUAT.bat BuildGraph -target=&#34;Make Installed Build Win64&#34; -script=Engine/Build/InstalledEngineBuild.xml -set:HostPlatformOnly=true -set:WithDDC=false -set:WithFullDebugInfo=true -clean ビルドに成功すると下記の場所に配布用のビルドが作成されます
+${UnrealEngineをgitで落としてきた場所}}\LocalBuilds\Engine\Windows
+プロジェクトを作ってみると、画像のような構成になっていれば成功！！
+失敗例 ビルド成功するまで幾つか失敗をしたので対処法を載せます
+PdbCopy.exeが無くて失敗する UE4.19以前 UE4.19はVisualStudio2015想定なのでパスが直書きされています。
+そのため下記を強制的に差し替えるようにしてください
+public override void StripSymbols(FileReference SourceFile, FileReference TargetFile) { // 省略 	ProcessStartInfo StartInfo = new ProcessStartInfo(); string PDBCopyPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), &#34;MSBuild&#34;, &#34;Microsoft&#34;, &#34;VisualStudio&#34;, &#34;v14.0&#34;, &#34;AppxPackage&#34;, &#34;PDBCopy.exe&#34;); PdbCopy.exe自体が存在しない VisualStudio2017ではインストーラーを出来る限り軽量にする為に依存を限りなく少なくしようとする試みがされています。">
+  <meta name="twitter:description" content="UE4の非配布版を使っているとリビルドをした時に問題がUE4までリビルドされたり
+UE4側も恐らく(間違っているかも)変更チェックとかをしていてビルドが非常に遅いなーと感じます
+EpicはUnrealEngine4を配布ビルドとしてビルドする方法を提供しているみたいなので試してみます。
+環境 今回はUE4.20.1を使用します。
+ビルドにはVisualStudio2017を使用します。
+今回は解説 …">
   <meta name="author" content="Some Person"/>
   <link href='https://laycnc.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://laycnc.github.io/img/avatar-icon.png" />
@@ -34,12 +63,12 @@
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@username" />
   <meta name="twitter:creator" content="@username" />
-  <meta property="og:url" content="https://laycnc.github.io/post/2018-08-08-new-site-release/" />
+  <meta property="og:url" content="https://laycnc.github.io/post/2018-08-20-ue4-installed-build/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="laycnc Blog" />
 
   <meta name="generator" content="Hugo 0.46" />
-  <link rel="canonical" href="https://laycnc.github.io/post/2018-08-08-new-site-release/" />
+  <link rel="canonical" href="https://laycnc.github.io/post/2018-08-20-ue4-installed-build/" />
   <link rel="alternate" href="https://laycnc.github.io/index.xml" type="application/rss+xml" title="laycnc Blog">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -170,17 +199,17 @@
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="post-heading">
-              <h1>ブログを開設しました</h1>
+              <h1>2018 08 08 Ue4 Installed Buildをしてみた</h1>
                 
                 
                   <span class="post-meta">
   
   
-  <i class="fa fa-calendar-o"></i>&nbsp;August 5, 2018に投稿
+  <i class="fa fa-calendar-o"></i>&nbsp;August 8, 2018に投稿
   
   
   &nbsp;|&nbsp;
-  <i class="fa fa-clock-o"></i> 1 分間 (7 言葉)
+  <i class="fa fa-clock-o"></i> 1 分間 (72 言葉)
   
   
 </span>
@@ -200,15 +229,61 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <p>最近アウトプットが出来ていないのでブログを作っていました。<br />
-たまに、Qiitaとかで記事とか書いていましたが、Qiitaだとポエム的な内容だとバッシングを受ける事もちらほらアリましたので<br />
-個人でブログを作る事にしました。<br />
-はてなブログも考えましたが、Githubで静的なWebページを出せるとのことなのでエンジニアとしてやってみようかなーっと</p>
+        
 
-<p>今回は<a href="https://gohugo.io/">Hugo</a>という静的Webサイト生成ツールを使ってブログを作っています。<br />
-基本的にはMarkdownを使っているので他のサイトへの移動は楽かなーっと</p>
+<p>UE4の非配布版を使っているとリビルドをした時に問題がUE4までリビルドされたり<br />
+UE4側も恐らく(間違っているかも)変更チェックとかをしていてビルドが非常に遅いなーと感じます<br />
+EpicはUnrealEngine4を配布ビルドとしてビルドする方法を提供しているみたいなので試してみます。</p>
 
-<p>今後はちょいちょい記事を上げていこうと思います</p>
+<h1 id="環境">環境</h1>
+
+<p>今回はUE4.20.1を使用します。<br />
+ビルドにはVisualStudio2017を使用します。<br />
+今回は解説を省きますのでhistoriaさんのブログを参照してください</p>
+
+<p><a href="http://historia.co.jp/archives/1327/">historia:[UE4] エンジンのソースコード取得とビルド手順のまとめ UE4.6改訂版</a><br />
+<a href="https://github.com/EpicGames/UnrealEngine/tree/4.20.1-release">UE4.20.1</a></p>
+
+<h1 id="やってみる">やってみる</h1>
+
+<p><a href="http://api.unrealengine.com/JPN/Programming/Development/InstalledBuildReference/">UE4:InstalledBuild公式ドキュメント</a></p>
+
+<p>公式ドキュメントを参考にUnrealAutomationToolを実行する<br />
+ドキュメントをほぼ移しただけなのでそこまで詳しく把握はしていません</p>
+
+<p>ビルドする際には使わない＋ビルド出来ないターゲットプラットフォームを除外する必要があります<br />
+実行時の引数に下記のように追記を加えると除外＋含める事ができます<br />
+分散ビルドなどの高速にビルドする手段が無い場合は出来る限り使わないプラットフォームのビルドを避けるようにしましょう！</p>
+<div class="highlight"><pre class="chroma"><code class="language-cmd" data-lang="cmd">-set:WithWin64=true -set:WithAndroid=false</code></pre></div>
+<p>実際にビルドで使ったコマンド　　</p>
+<div class="highlight"><pre class="chroma"><code class="language-cmd:コマンドプロンプト" data-lang="cmd:コマンドプロンプト">${UnrealEngineをgitで落としてきた場所}}\Engine\Build\BatchFiles\RunUAT.bat BuildGraph -target=&#34;Make Installed Build Win64&#34; -script=Engine/Build/InstalledEngineBuild.xml -set:HostPlatformOnly=true -set:WithDDC=false -set:WithFullDebugInfo=true -clean</code></pre></div>
+<p>ビルドに成功すると下記の場所に配布用のビルドが作成されます<br />
+${UnrealEngineをgitで落としてきた場所}}\LocalBuilds\Engine\Windows</p>
+
+<p>プロジェクトを作ってみると、画像のような構成になっていれば成功！！<br />
+<img src="/images/20180820ue4installed_build.png" alt="hoge" /></p>
+
+<h1 id="失敗例">失敗例</h1>
+
+<p>ビルド成功するまで幾つか失敗をしたので対処法を載せます</p>
+
+<h2 id="pdbcopy-exeが無くて失敗する">PdbCopy.exeが無くて失敗する</h2>
+
+<h3 id="ue4-19以前">UE4.19以前</h3>
+
+<p>UE4.19はVisualStudio2015想定なのでパスが直書きされています。<br />
+そのため下記を強制的に差し替えるようにしてください</p>
+<div class="highlight"><pre class="chroma"><code class="language-cs" data-lang="cs">	<span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">StripSymbols</span><span class="p">(</span><span class="n">FileReference</span> <span class="n">SourceFile</span><span class="p">,</span> <span class="n">FileReference</span> <span class="n">TargetFile</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="c1">// 省略
+</span><span class="c1"></span>		<span class="n">ProcessStartInfo</span> <span class="n">StartInfo</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ProcessStartInfo</span><span class="p">();</span>
+		<span class="kt">string</span> <span class="n">PDBCopyPath</span> <span class="p">=</span> <span class="n">Path</span><span class="p">.</span><span class="n">Combine</span><span class="p">(</span><span class="n">Environment</span><span class="p">.</span><span class="n">GetFolderPath</span><span class="p">(</span><span class="n">Environment</span><span class="p">.</span><span class="n">SpecialFolder</span><span class="p">.</span><span class="n">ProgramFilesX86</span><span class="p">),</span> <span class="s">&#34;MSBuild&#34;</span><span class="p">,</span> <span class="s">&#34;Microsoft&#34;</span><span class="p">,</span> <span class="s">&#34;VisualStudio&#34;</span><span class="p">,</span> <span class="s">&#34;v14.0&#34;</span><span class="p">,</span> <span class="s">&#34;AppxPackage&#34;</span><span class="p">,</span> <span class="s">&#34;PDBCopy.exe&#34;</span><span class="p">);</span></code></pre></div>
+<h3 id="pdbcopy-exe自体が存在しない">PdbCopy.exe自体が存在しない</h3>
+
+<p>VisualStudio2017ではインストーラーを出来る限り軽量にする為に依存を限りなく少なくしようとする試みがされています。<br />
+VS15.5からPdbCopy.exeが付属されないようになりました。<br />
+フォーラムの方ではWindows10SDKをインストールをするようにと指示がされます<br />
+<a href="https://developercommunity.visualstudio.com/content/problem/168414/pdbcopyexe-missing-from-155.html">Developer CommunityのPdbCopy.exeの報告</a></p>
 
 
         
@@ -221,7 +296,7 @@
 
 
 <li>
-    <a href="//twitter.com/share?url=https%3a%2f%2flaycnc.github.io%2fpost%2f2018-08-08-new-site-release%2f&amp;text=%e3%83%96%e3%83%ad%e3%82%b0%e3%82%92%e9%96%8b%e8%a8%ad%e3%81%97%e3%81%be%e3%81%97%e3%81%9f&amp;via=username"
+    <a href="//twitter.com/share?url=https%3a%2f%2flaycnc.github.io%2fpost%2f2018-08-20-ue4-installed-build%2f&amp;text=2018%2008%2008%20Ue4%20Installed%20Build%e3%82%92%e3%81%97%e3%81%a6%e3%81%bf%e3%81%9f&amp;via=username"
        target="_blank" alt="" title="Share on Twitter">
         <span class="fa-stack fa-lg">
                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -232,7 +307,7 @@
 
 
 <li>
-    <a href="//plus.google.com/share?url=https%3a%2f%2flaycnc.github.io%2fpost%2f2018-08-08-new-site-release%2f" target="_blank" title="Share on Google Plus">
+    <a href="//plus.google.com/share?url=https%3a%2f%2flaycnc.github.io%2fpost%2f2018-08-20-ue4-installed-build%2f" target="_blank" title="Share on Google Plus">
          <span class="fa-stack fa-lg">
                 <i class="fa fa-circle fa-stack-2x"></i>
                 <i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
@@ -242,7 +317,7 @@
 
 
 <li>
-    <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2flaycnc.github.io%2fpost%2f2018-08-08-new-site-release%2f" target="_blank" title="Share on Facebook">
+    <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2flaycnc.github.io%2fpost%2f2018-08-20-ue4-installed-build%2f" target="_blank" title="Share on Facebook">
         <span class="fa-stack fa-lg">
                 <i class="fa fa-circle fa-stack-2x"></i>
                 <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
@@ -252,7 +327,7 @@
 
 
 <li>
-    <a href="//reddit.com/submit?url=https%3a%2f%2flaycnc.github.io%2fpost%2f2018-08-08-new-site-release%2f&amp;title=%e3%83%96%e3%83%ad%e3%82%b0%e3%82%92%e9%96%8b%e8%a8%ad%e3%81%97%e3%81%be%e3%81%97%e3%81%9f" target="_blank" title="Share on Reddit">
+    <a href="//reddit.com/submit?url=https%3a%2f%2flaycnc.github.io%2fpost%2f2018-08-20-ue4-installed-build%2f&amp;title=2018%2008%2008%20Ue4%20Installed%20Build%e3%82%92%e3%81%97%e3%81%a6%e3%81%bf%e3%81%9f" target="_blank" title="Share on Reddit">
          <span class="fa-stack fa-lg">
                 <i class="fa fa-circle fa-stack-2x"></i>
                 <i class="fa fa-reddit fa-stack-1x fa-inverse"></i>
@@ -262,7 +337,7 @@
 
 
 <li>
-    <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2flaycnc.github.io%2fpost%2f2018-08-08-new-site-release%2f&amp;title=%e3%83%96%e3%83%ad%e3%82%b0%e3%82%92%e9%96%8b%e8%a8%ad%e3%81%97%e3%81%be%e3%81%97%e3%81%9f" target="_blank"
+    <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2flaycnc.github.io%2fpost%2f2018-08-20-ue4-installed-build%2f&amp;title=2018%2008%2008%20Ue4%20Installed%20Build%e3%82%92%e3%81%97%e3%81%a6%e3%81%bf%e3%81%9f" target="_blank"
        title="Share on LinkedIn">
          <span class="fa-stack fa-lg">
                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -273,7 +348,7 @@
 
 
 <li>
-    <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2flaycnc.github.io%2fpost%2f2018-08-08-new-site-release%2f&amp;title=%e3%83%96%e3%83%ad%e3%82%b0%e3%82%92%e9%96%8b%e8%a8%ad%e3%81%97%e3%81%be%e3%81%97%e3%81%9f" target="_blank"
+    <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2flaycnc.github.io%2fpost%2f2018-08-20-ue4-installed-build%2f&amp;title=2018%2008%2008%20Ue4%20Installed%20Build%e3%82%92%e3%81%97%e3%81%a6%e3%81%bf%e3%81%9f" target="_blank"
        title="Share on StumbleUpon">
         <span class="fa-stack fa-lg">
                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -284,7 +359,7 @@
 
 
 <li>
-    <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2flaycnc.github.io%2fpost%2f2018-08-08-new-site-release%2f&amp;description=%e3%83%96%e3%83%ad%e3%82%b0%e3%82%92%e9%96%8b%e8%a8%ad%e3%81%97%e3%81%be%e3%81%97%e3%81%9f" target="_blank"
+    <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2flaycnc.github.io%2fpost%2f2018-08-20-ue4-installed-build%2f&amp;description=2018%2008%2008%20Ue4%20Installed%20Build%e3%82%92%e3%81%97%e3%81%a6%e3%81%bf%e3%81%9f" target="_blank"
        title="Share on Pinterest">
          <span class="fa-stack fa-lg">
                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -301,10 +376,10 @@
       
         <ul class="pager blog-pager">
           
-          
-            <li class="next">
-              <a href="https://laycnc.github.io/post/2018-08-20-ue4-installed-build/" data-toggle="tooltip" data-placement="top" title="2018 08 08 Ue4 Installed Buildをしてみた">次ページ &rarr;</a>
+            <li class="previous">
+              <a href="https://laycnc.github.io/post/2018-08-08-new-site-release/" data-toggle="tooltip" data-placement="top" title="ブログを開設しました">&larr; 前ページ</a>
             </li>
+          
           
         </ul>
       
