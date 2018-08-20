@@ -209,7 +209,7 @@ EpicはUnrealEngine4を配布ビルドとしてビルドする方法を提供し
   
   
   &nbsp;|&nbsp;
-  <i class="fa fa-clock-o"></i> 1 分間 (72 言葉)
+  <i class="fa fa-clock-o"></i> 1 分間 (87 言葉)
   
   
 </span>
@@ -261,7 +261,7 @@ EpicはUnrealEngine4を配布ビルドとしてビルドする方法を提供し
 ${UnrealEngineをgitで落としてきた場所}}\LocalBuilds\Engine\Windows</p>
 
 <p>プロジェクトを作ってみると、画像のような構成になっていれば成功！！<br />
-<img src="/images/20180820ue4installed_build.png" alt="hoge" /></p>
+<img src="/images/20180820ue4installed_build.png" alt="ビルド構成のプルダウン" /></p>
 
 <h1 id="失敗例">失敗例</h1>
 
@@ -284,6 +284,24 @@ ${UnrealEngineをgitで落としてきた場所}}\LocalBuilds\Engine\Windows</p>
 VS15.5からPdbCopy.exeが付属されないようになりました。<br />
 フォーラムの方ではWindows10SDKをインストールをするようにと指示がされます<br />
 <a href="https://developercommunity.visualstudio.com/content/problem/168414/pdbcopyexe-missing-from-155.html">Developer CommunityのPdbCopy.exeの報告</a></p>
+
+<p><img src="/images/20180820winsdk_error.png" alt="Win10SDKエラー" /><br />
+すでにVisualStudioInstallerでインストールしている際には上記のようなエラー文が表示されます。<br />
+VisualStudioInstallerで管理している物に手を加えるのが怖かったので<strong>Debugging Tools for Windows</strong>のみをオフラインインストールしました</p>
+
+<p>以下自己責任でおねがいします</p>
+<div class="highlight"><pre class="chroma"><code class="language-cmd" data-lang="cmd">winsdksetup.exe /layout</code></pre></div>
+<p>上記のコマンドを打つとインストーラーをダウンロードするディレクトリを聞かれるのでお好きな場所を指定してください。<br />
+<img src="/images/20180820winsdkoffline00.png" alt="Win10SDKエラー" /></p>
+
+<p>ダウンロードするインストーラーを聞かれるので<strong>Debugging Tools for Windows</strong>以外のチェックを外してください</p>
+
+<p><img src="/images/20180820winsdkoffline01.png" alt="Win10SDKエラー" /></p>
+
+<p>インストールを進めると画像のインストーラーが手に入るのでそれを使ってインストールをしてください。<br />
+それでPdbCopy.exeがSDKにインストールされます。</p>
+
+<p><img src="/images/20180820winsdkoffline02.png" alt="Win10SDKエラー" /></p>
 
 
         
